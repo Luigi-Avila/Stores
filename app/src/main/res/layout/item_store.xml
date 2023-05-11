@@ -40,10 +40,10 @@
             android:id="@+id/cbFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/ic_favorite_border"
+            android:button="@drawable/states_cb_favorite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
+            android:buttonTint="@android:color/white"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
