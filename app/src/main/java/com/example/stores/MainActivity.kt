@@ -2,7 +2,6 @@ package com.example.stores
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.GridLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stores.databinding.ActivityMainBinding
 
@@ -18,6 +17,11 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         setContentView(mBinding.root)
 
         setupRecyclerview()
+
+        mBinding.btnSave.setOnClickListener {
+            val store = Store(name = mBinding.etName.text.toString().trim())
+            mAdapter.add(store)
+        }
     }
 
     private fun setupRecyclerview(){
