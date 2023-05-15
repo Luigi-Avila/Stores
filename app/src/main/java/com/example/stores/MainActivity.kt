@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         setupRecyclerview()
 
         mBinding.btnSave.setOnClickListener {
-            val store = Store(name = mBinding.etName.text.toString().trim())
-            mAdapter.add(store)
+            val storeEntity = StoreEntity(name = mBinding.etName.text.toString().trim())
+            mAdapter.add(storeEntity)
         }
     }
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
-    override fun onclick(store: Store) {
-        super.onclick(store)
+    override fun onclick(storeEntity: StoreEntity) {
+        super.onclick(storeEntity)
     }
 }
