@@ -19,8 +19,13 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         setupRecyclerview()
 
         mBinding.btnSave.setOnClickListener {
-            val storeEntity = StoreEntity(name = mBinding.etName.text.toString().trim())
-            mAdapter.add(storeEntity)
+            val store = StoreEntity(name = mBinding.etName.text.toString().trim())
+
+            Thread {
+                StoreApplication.database.storeDao().insertStore(store)
+            }
+
+            mAdapter.add(store)
         }
     }
 
