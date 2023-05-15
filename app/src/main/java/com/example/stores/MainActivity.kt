@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stores.databinding.ActivityMainBinding
+import java.util.concurrent.LinkedBlockingQueue
 
 class MainActivity : AppCompatActivity(), OnClickListener {
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
             Thread {
                 StoreApplication.database.storeDao().insertStore(store)
-            }
+            }.start()
 
             mAdapter.add(store)
         }
@@ -33,12 +34,24 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         mAdapter = StoreAdapter(mutableListOf(), this)
         mGridLayout = GridLayoutManager(this, 2)
 
+        getStores()
+
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = mGridLayout
             adapter = mAdapter
         }
     }
+
+    private fun getStores() {
+        val queue = LinkedBlockingQueue<MutableList<StoreEntity>>()
+        Thread{
+            val stores = StoreApplication.database.storeDao().getAllStores()
+            queue.add(stores)
+        }.start()
+        mAdapter.setStores(queue.take())
+    }
+
 
     override fun onclick(storeEntity: StoreEntity) {
         super.onclick(storeEntity)
