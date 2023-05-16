@@ -6,4 +6,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_name">Nombre de la tienda</string>
     <string name="helper_required">Obligatorio</string>
+    <string name="hint_phone">Telefono</string>
+    <string name="hint_website">url del sitio web</string>
 </resources>
