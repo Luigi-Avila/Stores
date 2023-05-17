@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
         setupRecyclerview()
 
+        mBinding.fab.setOnClickListener { launchEditFragment() }
+
+        /*
         mBinding.btnSave.setOnClickListener {
             val store = StoreEntity(name = mBinding.etName.text.toString().trim())
 
@@ -28,9 +31,19 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
             mAdapter.add(store)
         }
+         */
     }
 
-    private fun setupRecyclerview(){
+    private fun launchEditFragment() {
+        val fragment = EditStoreFragment()
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.containerMain, fragment)
+        fragmentTransaction.commit()
+        mBinding.fab.hide()
+    }
+
+    private fun setupRecyclerview() {
         mAdapter = StoreAdapter(mutableListOf(), this)
         mGridLayout = GridLayoutManager(this, 2)
 
@@ -45,7 +58,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     private fun getStores() {
         val queue = LinkedBlockingQueue<MutableList<StoreEntity>>()
-        Thread{
+        Thread {
             val stores = StoreApplication.database.storeDao().getAllStores()
             queue.add(stores)
         }.start()
@@ -61,7 +74,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         super.onFavorite(storeEntity)
         val queue = LinkedBlockingQueue<StoreEntity>()
         storeEntity.isFavorite = !storeEntity.isFavorite
-        Thread{
+        Thread {
             StoreApplication.database.storeDao().updateStore(storeEntity)
             queue.add(storeEntity)
         }.start()
@@ -71,7 +84,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     override fun onDeleteStore(storeEntity: StoreEntity) {
         super.onDeleteStore(storeEntity)
         val queue = LinkedBlockingQueue<StoreEntity>()
-        Thread{
+        Thread {
             StoreApplication.database.storeDao().deleteStore(storeEntity)
             queue.add(storeEntity)
         }.start()
