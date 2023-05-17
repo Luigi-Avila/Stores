@@ -59,4 +59,11 @@ class EditStoreFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        mActivity?.supportActionBar?.title = getString(R.string.app_name)
+        setHasOptionsMenu(false)
+        mActivity?.hideFab(isVisible = true)
+        super.onDestroy()
+    }
 }
