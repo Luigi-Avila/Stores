@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.stores.databinding.FragmentEditStoreBinding
 import com.google.android.material.snackbar.Snackbar
+import java.util.concurrent.LinkedBlockingQueue
 
 class EditStoreFragment : Fragment() {
 
@@ -48,13 +49,28 @@ class EditStoreFragment : Fragment() {
             }
 
             R.id.action_save -> {
-                Snackbar.make(
-                    mBinding.root,
-                    getString(R.string.edit_store_message_save_success),
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                val store = StoreEntity(
+                    name = mBinding.etName.text.toString().trim(),
+                    phone = mBinding.etPhone.text.toString().trim(),
+                    website = mBinding.etWebsite.text.toString().trim()
+                )
+
+                val queue = LinkedBlockingQueue<Long>()
+                Thread {
+                    val id = StoreApplication.database.storeDao().insertStore(store)
+                    queue.add(id)
+                }.start()
+
+                queue.take()?.let {
+                    Snackbar.make(
+                        mBinding.root,
+                        getString(R.string.edit_store_message_save_success),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
