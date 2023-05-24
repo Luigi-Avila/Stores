@@ -105,4 +105,8 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     override fun hideFab(isVisible: Boolean) {
         if (isVisible) mBinding.fab.show() else mBinding.fab.hide()
     }
+
+    override fun addStore(storeEntity: StoreEntity) {
+        mAdapter.add(storeEntity)
+    }
 }
