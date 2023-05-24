@@ -15,7 +15,6 @@ import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.databinding.FragmentEditStoreBinding
-import com.google.android.material.snackbar.Snackbar
 import java.util.concurrent.LinkedBlockingQueue
 
 class EditStoreFragment : Fragment() {
@@ -67,6 +66,21 @@ class EditStoreFragment : Fragment() {
         }.start()
         queue.take()?.let {
             // set values of store
+            setUiStore(it)
+        }
+    }
+
+    private fun setUiStore(storeEntity: StoreEntity) {
+        with(mBinding){
+            etName.setText(storeEntity.name)
+            etPhone.setText(storeEntity.phone)
+            etWebsite.setText(storeEntity.website)
+            etPhotoUrl.setText(storeEntity.photoUrl)
+            Glide.with(requireActivity())
+                .load(storeEntity.photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(imgPhoto)
         }
     }
 
