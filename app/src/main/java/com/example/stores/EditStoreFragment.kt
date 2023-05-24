@@ -10,6 +10,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.databinding.FragmentEditStoreBinding
 import com.google.android.material.snackbar.Snackbar
 import java.util.concurrent.LinkedBlockingQueue
@@ -36,6 +40,14 @@ class EditStoreFragment : Fragment() {
         mActivity?.supportActionBar?.title = getString(R.string.edit_store_title_add)
 
         setHasOptionsMenu(true)
+
+        mBinding.etPhotoUrl.addTextChangedListener {
+            Glide.with(this)
+                .load(mBinding.etPhotoUrl.text.toString())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(mBinding.imgPhoto)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -67,11 +79,18 @@ class EditStoreFragment : Fragment() {
                 queue.take()?.let {
                     mActivity?.addStore(store)
                     hideKeyboard()
-                    Snackbar.make(
+                    // This option doesn't hide the fab
+                    Toast.makeText(
+                        mActivity,
+                        R.string.edit_store_message_save_success,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    /*Snackbar.make(
                         mBinding.root,
                         getString(R.string.edit_store_message_save_success),
                         Snackbar.LENGTH_SHORT
                     ).show()
+                     */
                     mActivity?.onBackPressedDispatcher?.onBackPressed()
                 }
                 true
@@ -81,7 +100,7 @@ class EditStoreFragment : Fragment() {
         }
     }
 
-    private fun hideKeyboard(){
+    private fun hideKeyboard() {
         val imm = mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
@@ -90,6 +109,7 @@ class EditStoreFragment : Fragment() {
         hideKeyboard()
         super.onDestroyView()
     }
+
     override fun onDestroy() {
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         mActivity?.supportActionBar?.title = getString(R.string.app_name)
