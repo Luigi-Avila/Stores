@@ -2,6 +2,7 @@ package com.example.stores
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -72,17 +73,23 @@ class EditStoreFragment : Fragment() {
 
     private fun setUiStore(storeEntity: StoreEntity) {
         with(mBinding){
-            etName.setText(storeEntity.name)
-            etPhone.setText(storeEntity.phone)
-            etWebsite.setText(storeEntity.website)
-            etPhotoUrl.setText(storeEntity.photoUrl)
+            etName.text = storeEntity.name.editable()
+            etPhone.text = storeEntity.phone.editable()
+            etWebsite.text = storeEntity.website.editable()
+            etPhotoUrl.text = storeEntity.photoUrl.editable()
+            /*
             Glide.with(requireActivity())
                 .load(storeEntity.photoUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(imgPhoto)
+             */
+
         }
     }
+
+    // extension function editable for edit text
+    private fun String.editable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_save, menu)
