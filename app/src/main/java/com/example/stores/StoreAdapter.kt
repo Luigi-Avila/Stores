@@ -72,7 +72,7 @@ class StoreAdapter(
 
         fun setListener(storeEntity: StoreEntity) {
             with(binding.root) {
-                setOnClickListener { listener.onclick(storeEntity) }
+                setOnClickListener { listener.onclick(storeEntity.id) }
                 setOnLongClickListener {
                     listener.onDeleteStore(storeEntity)
                     true
