@@ -60,6 +60,7 @@ class EditStoreFragment : Fragment() {
                 val queue = LinkedBlockingQueue<Long>()
                 Thread {
                     val id = StoreApplication.database.storeDao().insertStore(store)
+                    store.id = id
                     queue.add(id)
                 }.start()
 
