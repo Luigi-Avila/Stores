@@ -16,6 +16,7 @@ import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.databinding.FragmentEditStoreBinding
+import com.google.android.material.textfield.TextInputLayout
 import java.util.concurrent.LinkedBlockingQueue
 
 class EditStoreFragment : Fragment() {
@@ -105,7 +106,7 @@ class EditStoreFragment : Fragment() {
             }
 
             R.id.action_save -> {
-                if (mStoreEntity != null && validateFields()) {
+                if (mStoreEntity != null && validateFields(mBinding.tilPhotoUrl, mBinding.tilPhone, mBinding.tilName)) {
                     /*val store = StoreEntity(
                     name = mBinding.etName.text.toString().trim(),
                     phone = mBinding.etPhone.text.toString().trim(),
@@ -165,30 +166,51 @@ class EditStoreFragment : Fragment() {
         }
     }
 
-    private fun validateFields(): Boolean {
+    private fun validateFields(vararg textFields: TextInputLayout): Boolean {
         var validate = true
 
-        if (mBinding.etPhotoUrl.text.toString().trim().isEmpty()){
-            mBinding.tilPhotoUrl.error = getString(R.string.helper_required)
-            mBinding.tilPhotoUrl.requestFocus()
-            validate = false
+        for (textField in textFields) {
+            if (textField.editText?.text.toString().trim().isEmpty()) {
+                textField.error = getString(R.string.helper_required)
+                validate = false
+            }
         }
 
-        if (mBinding.etPhone.text.toString().trim().isEmpty()){
-            mBinding.tilPhone.error = getString(R.string.helper_required)
-            mBinding.tilPhone.requestFocus()
-            validate = false
-        }
-
-        if (mBinding.etName.text.toString().trim().isEmpty()){
-            mBinding.tilName.error = getString(R.string.helper_required)
-            mBinding.tilName.requestFocus()
-            validate = false
-        }
-
+        if (!validate) Toast.makeText(
+            mActivity,
+            R.string.edit_store_message_valid,
+            Toast.LENGTH_SHORT
+        ).show()
 
         return validate
     }
+
+    /*  private fun validateFields(): Boolean {
+          var validate = true
+
+          if (mBinding.etPhotoUrl.text.toString().trim().isEmpty()){
+              mBinding.tilPhotoUrl.error = getString(R.string.helper_required)
+              mBinding.tilPhotoUrl.requestFocus()
+              validate = false
+          }
+
+          if (mBinding.etPhone.text.toString().trim().isEmpty()){
+              mBinding.tilPhone.error = getString(R.string.helper_required)
+              mBinding.tilPhone.requestFocus()
+              validate = false
+          }
+
+          if (mBinding.etName.text.toString().trim().isEmpty()){
+              mBinding.tilName.error = getString(R.string.helper_required)
+              mBinding.tilName.requestFocus()
+              validate = false
+          }
+
+
+          return validate
+      }
+
+     */
 
     private fun hideKeyboard() {
         val imm = mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
