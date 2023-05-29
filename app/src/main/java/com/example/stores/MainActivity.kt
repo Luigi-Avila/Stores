@@ -113,4 +113,8 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     override fun addStore(storeEntity: StoreEntity) {
         mAdapter.add(storeEntity)
     }
+
+    override fun updateStore(storeEntity: StoreEntity) {
+        mAdapter.updateStore(storeEntity)
+    }
 }

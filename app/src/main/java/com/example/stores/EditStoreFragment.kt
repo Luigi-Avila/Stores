@@ -37,11 +37,12 @@ class EditStoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val id = arguments?.getLong(getString(R.string.arg_id), 0)
-        if (id != null && id != 0L){
+        if (id != null && id != 0L) {
             mIsEditMode = true
             getStore(id)
         } else {
-            Toast.makeText(activity, id.toString(), Toast.LENGTH_SHORT).show()
+            mIsEditMode = false
+            mStoreEntity = StoreEntity(name = "", phone = "", photoUrl = "")
         }
 
         mActivity = activity as? MainActivity
@@ -61,7 +62,7 @@ class EditStoreFragment : Fragment() {
 
     private fun getStore(id: Long) {
         val queue = LinkedBlockingQueue<StoreEntity?>()
-        Thread{
+        Thread {
             mStoreEntity = StoreApplication.database.storeDao().getStoreById(id)
             queue.add(mStoreEntity)
         }.start()
@@ -72,7 +73,7 @@ class EditStoreFragment : Fragment() {
     }
 
     private fun setUiStore(storeEntity: StoreEntity) {
-        with(mBinding){
+        with(mBinding) {
             etName.text = storeEntity.name.editable()
             etPhone.text = storeEntity.phone.editable()
             etWebsite.text = storeEntity.website.editable()
@@ -104,36 +105,58 @@ class EditStoreFragment : Fragment() {
             }
 
             R.id.action_save -> {
-                val store = StoreEntity(
+                if (mStoreEntity != null) {
+                    /*val store = StoreEntity(
                     name = mBinding.etName.text.toString().trim(),
                     phone = mBinding.etPhone.text.toString().trim(),
                     website = mBinding.etWebsite.text.toString().trim(),
                     photoUrl = mBinding.etPhotoUrl.text.toString().trim()
-                )
+                )*/
+                    with(mStoreEntity!!) {
+                        name = mBinding.etName.text.toString().trim()
+                        phone = mBinding.etPhone.text.toString().trim()
+                        website = mBinding.etWebsite.text.toString().trim()
+                        photoUrl = mBinding.etPhotoUrl.text.toString().trim()
+                    }
 
-                val queue = LinkedBlockingQueue<Long>()
-                Thread {
-                    val id = StoreApplication.database.storeDao().insertStore(store)
-                    store.id = id
-                    queue.add(id)
-                }.start()
+                    val queue = LinkedBlockingQueue<StoreEntity>()
+                    Thread {
+                        if (mIsEditMode) StoreApplication.database.storeDao()
+                            .updateStore(mStoreEntity!!)
+                        else mStoreEntity!!.id =
+                            StoreApplication.database.storeDao().insertStore(mStoreEntity!!)
+                        queue.add(mStoreEntity)
+                    }.start()
 
-                queue.take()?.let {
-                    mActivity?.addStore(store)
-                    hideKeyboard()
-                    // This option doesn't hide the fab
-                    Toast.makeText(
-                        mActivity,
-                        R.string.edit_store_message_save_success,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    /*Snackbar.make(
-                        mBinding.root,
-                        getString(R.string.edit_store_message_save_success),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                     */
-                    mActivity?.onBackPressedDispatcher?.onBackPressed()
+                    with(queue.take()) {
+                        hideKeyboard()
+
+                        if (mIsEditMode) {
+                            mActivity?.updateStore(this)
+                            Toast.makeText(
+                                mActivity,
+                                R.string.edit_store_message_update_success,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            mActivity?.addStore(this)
+                            // This option doesn't hide the fab
+                            Toast.makeText(
+                                mActivity,
+                                R.string.edit_store_message_save_success,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            /*Snackbar.make(
+                                mBinding.root,
+                                getString(R.string.edit_store_message_save_success),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                             */
+                            mActivity?.onBackPressedDispatcher?.onBackPressed()
+                        }
+
+                    }
+
                 }
                 true
             }
