@@ -105,7 +105,7 @@ class EditStoreFragment : Fragment() {
             }
 
             R.id.action_save -> {
-                if (mStoreEntity != null) {
+                if (mStoreEntity != null && validateFields()) {
                     /*val store = StoreEntity(
                     name = mBinding.etName.text.toString().trim(),
                     phone = mBinding.etPhone.text.toString().trim(),
@@ -163,6 +163,31 @@ class EditStoreFragment : Fragment() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun validateFields(): Boolean {
+        var validate = true
+
+        if (mBinding.etPhotoUrl.text.toString().trim().isEmpty()){
+            mBinding.tilPhotoUrl.error = getString(R.string.helper_required)
+            mBinding.tilPhotoUrl.requestFocus()
+            validate = false
+        }
+
+        if (mBinding.etPhone.text.toString().trim().isEmpty()){
+            mBinding.tilPhone.error = getString(R.string.helper_required)
+            mBinding.tilPhone.requestFocus()
+            validate = false
+        }
+
+        if (mBinding.etName.text.toString().trim().isEmpty()){
+            mBinding.tilName.error = getString(R.string.helper_required)
+            mBinding.tilName.requestFocus()
+            validate = false
+        }
+
+
+        return validate
     }
 
     private fun hideKeyboard() {
