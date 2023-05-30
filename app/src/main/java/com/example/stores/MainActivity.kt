@@ -1,9 +1,11 @@
 package com.example.stores
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stores.databinding.ActivityMainBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.concurrent.LinkedBlockingQueue
 
 class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
@@ -92,13 +94,18 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     }
 
     override fun onDeleteStore(storeEntity: StoreEntity) {
-        super.onDeleteStore(storeEntity)
-        val queue = LinkedBlockingQueue<StoreEntity>()
-        Thread {
-            StoreApplication.database.storeDao().deleteStore(storeEntity)
-            queue.add(storeEntity)
-        }.start()
-        mAdapter.deleteStore(queue.take())
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_delete_title)
+            .setPositiveButton(R.string.dialog_delete_confirm) { dialogInterface, i ->
+                val queue = LinkedBlockingQueue<StoreEntity>()
+                Thread {
+                    StoreApplication.database.storeDao().deleteStore(storeEntity)
+                    queue.add(storeEntity)
+                }.start()
+                mAdapter.deleteStore(queue.take())
+            }
+            .setNegativeButton(R.string.dialog_delete_cancel, null)
+            .show()
     }
 
     /**
