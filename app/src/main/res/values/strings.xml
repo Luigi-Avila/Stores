@@ -15,4 +15,5 @@
     <string name="arg_id">key_id</string>
     <string name="edit_store_message_update_success">Tienda actualizada</string>
     <string name="edit_store_message_valid">Revise los campos requeridos</string>
+    <string name="edit_store_title_edit">Editar tienda</string>
 </resources>
