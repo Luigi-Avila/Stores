@@ -1,6 +1,5 @@
 package com.example.stores
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -105,7 +104,7 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
                 when (i) {
                     0 -> confirmDelete(storeEntity)
                     1 -> dial(storeEntity.phone)
-                    2 -> Toast.makeText(this, "Sitio web...", Toast.LENGTH_SHORT).show()
+                    2 -> goToWebSite(storeEntity.website)
                 }
             }
             .show()
@@ -126,12 +125,25 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
             .show()
     }
 
-    private fun dial(phone: String){
+    private fun dial(phone: String) {
         val callIntent = Intent().apply {
             action = Intent.ACTION_DIAL
             data = Uri.parse("tel:$phone")
         }
         startActivity(callIntent)
+    }
+
+    private fun goToWebSite(website: String) {
+        if (website.isEmpty()) {
+            Toast.makeText(this, R.string.main_error_no_website, Toast.LENGTH_LONG).show()
+        } else {
+            val websiteIntent = Intent().apply {
+                action = Intent.ACTION_VIEW
+                data = Uri.parse(website)
+            }
+            startActivity(websiteIntent)
+        }
+
     }
 
     /**
