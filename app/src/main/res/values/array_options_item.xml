@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="array_options_item">
-        <item>Llamar</item>
-        <item>Ir al sitio web</item>
-        <item>Eliminar</item>
+        <item>@string/options_item_call</item>
+        <item>@string/options_item_website</item>
+        <item>@string/dialog_delete_confirm</item>
     </string-array>
 </resources>
