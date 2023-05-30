@@ -21,4 +21,5 @@
     <string name="dialog_delete_cancel">Cancelar</string>
     <string name="dialog_options_title">¿Que desea hacer?</string>
     <string name="main_error_no_website">Esta tienda no tiene sitio web</string>
+    <string name="main_error_no_resolve">No se encontró ninguna app compatible</string>
 </resources>
