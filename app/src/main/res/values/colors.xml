@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_white_t">#CCFFFFFF</color>
     <color name="color_link">#0D47A1</color>
+    <color name="my_color_primary">#0c9d46</color>
+    <color name="my_color_secondary">#f63e54</color>
 </resources>
