@@ -1,27 +1,34 @@
 <resources>
-    <string name="app_name">Tiendas</string>
-    <string name="description_img_photo">Imagen de la tienda</string>
-    <string name="description_store_add">Crear tienda</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hint_name">Nombre de la tienda</string>
-    <string name="helper_required">Obligatorio</string>
-    <string name="hint_phone">Telefono</string>
-    <string name="hint_website">url del sitio web</string>
-    <string name="hint_photo_url">URL de la imagen</string>
-    <string name="edit_store_title_add">Crear tienda</string>
+    <string name="app_name">Stores</string>
+
+    <string name="arg_id" translatable="false">key_id</string>
+
+    <string name="description_img_photo">Store\'s image</string>
+    <string name="description_store_add">Create store</string>
+
+    <string name="dialog_delete_title">¿Delete store?</string>
+    <string name="dialog_delete_confirm">Delete</string>
+    <string name="dialog_delete_cancel">Cancel</string>
+    <string name="dialog_options_title">¿What would you like to do?</string>
+
+    <string name="edit_store_message_save_success">Store added successfully.</string>
+    <string name="edit_store_message_update_success">Store updated</string>
+    <string name="edit_store_message_valid">Review the required files</string>
+    <string name="edit_store_title_edit">Edit store</string>
+    <string name="edit_store_title_add">Create store</string>
+
+    <string name="helper_required">Required</string>
+
+    <string name="hint_name">Store\'s name</string>
+    <string name="hint_phone">Phone number</string>
+    <string name="hint_website">Url\'s Website</string>
+    <string name="hint_photo_url">Url\'s image</string>
+
+    <string name="main_error_no_website">This store doesn\'t have website</string>
+    <string name="main_error_no_resolve">No compatible app found</string>
+
     <string name="menu_save">Save</string>
-    <string name="edit_store_message_save_success">Tienda agregada exitosamente.</string>
-    <string name="arg_id">key_id</string>
-    <string name="edit_store_message_update_success">Tienda actualizada</string>
-    <string name="edit_store_message_valid">Revise los campos requeridos</string>
-    <string name="edit_store_title_edit">Editar tienda</string>
-    <string name="dialog_delete_title">¿Eliminar tienda?</string>
-    <string name="dialog_delete_confirm">Eliminar</string>
-    <string name="dialog_delete_cancel">Cancelar</string>
-    <string name="dialog_options_title">¿Que desea hacer?</string>
-    <string name="main_error_no_website">Esta tienda no tiene sitio web</string>
-    <string name="main_error_no_resolve">No se encontró ninguna app compatible</string>
-    <string name="options_item_call">Llamar</string>
-    <string name="options_item_website">Ir al sitio web</string>
+
+    <string name="options_item_call">Call</string>
+    <string name="options_item_website">Go to website</string>
 </resources>
