@@ -15,7 +15,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_store" />
+        tools:listitem="@layout/item_store"
+        android:paddingBottom="@dimen/common_padding_min"
+        android:clipToPadding="true"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
