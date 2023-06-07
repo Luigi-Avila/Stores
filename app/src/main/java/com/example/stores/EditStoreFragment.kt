@@ -119,17 +119,17 @@ class EditStoreFragment : Fragment() {
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    MaterialAlertDialogBuilder(requireActivity())
-                        .setTitle(R.string.dialog_exit_title)
-                        .setMessage(R.string.dialog_exit_message)
-                        .setPositiveButton(R.string.dialog_exit_ok) { _, _ ->
-                            if (isEnabled) {
-                                isEnabled = false
+                    if (isEnabled) {
+                        isEnabled = false
+                        MaterialAlertDialogBuilder(requireActivity())
+                            .setTitle(R.string.dialog_exit_title)
+                            .setMessage(R.string.dialog_exit_message)
+                            .setPositiveButton(R.string.dialog_exit_ok) { _, _ ->
                                 requireActivity().onBackPressedDispatcher.onBackPressed()
                             }
-                        }
-                        .setNegativeButton(R.string.dialog_delete_cancel, null)
-                        .show()
+                            .setNegativeButton(R.string.dialog_delete_cancel, null)
+                            .show()
+                    }
                 }
             })
     }
