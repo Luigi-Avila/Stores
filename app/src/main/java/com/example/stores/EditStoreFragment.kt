@@ -12,10 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.databinding.FragmentEditStoreBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -53,13 +56,14 @@ class EditStoreFragment : Fragment() {
     private fun setupActionBar() {
         mActivity = activity as? MainActivity
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        mActivity?.supportActionBar?.title = if (mIsEditMode) getString(R.string.edit_store_title_edit)
-        else getString(R.string.edit_store_title_add)
+        mActivity?.supportActionBar?.title =
+            if (mIsEditMode) getString(R.string.edit_store_title_edit)
+            else getString(R.string.edit_store_title_add)
         setHasOptionsMenu(true)
     }
 
     private fun setupTextFields() {
-        with(mBinding){
+        with(mBinding) {
             etName.addTextChangedListener { validateFields(tilName) }
             etPhone.addTextChangedListener { validateFields(tilPhone) }
             etPhotoUrl.addTextChangedListener {
@@ -109,6 +113,27 @@ class EditStoreFragment : Fragment() {
     // extension function editable for edit text
     private fun String.editable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    MaterialAlertDialogBuilder(requireActivity())
+                        .setTitle(R.string.dialog_exit_title)
+                        .setMessage(R.string.dialog_exit_message)
+                        .setPositiveButton(R.string.dialog_exit_ok) { _, _ ->
+                            if (isEnabled) {
+                                isEnabled = false
+                                requireActivity().onBackPressedDispatcher.onBackPressed()
+                            }
+                        }
+                        .setNegativeButton(R.string.dialog_delete_cancel, null)
+                        .show()
+                }
+            })
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_save, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -117,12 +142,17 @@ class EditStoreFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                mActivity?.onBackPressedDispatcher?.onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
                 true
             }
 
             R.id.action_save -> {
-                if (mStoreEntity != null && validateFields(mBinding.tilPhotoUrl, mBinding.tilPhone, mBinding.tilName)) {
+                if (mStoreEntity != null && validateFields(
+                        mBinding.tilPhotoUrl,
+                        mBinding.tilPhone,
+                        mBinding.tilName
+                    )
+                ) {
                     /*val store = StoreEntity(
                     name = mBinding.etName.text.toString().trim(),
                     phone = mBinding.etPhone.text.toString().trim(),
@@ -169,7 +199,7 @@ class EditStoreFragment : Fragment() {
                                 Snackbar.LENGTH_SHORT
                             ).show()
                              */
-                            mActivity?.onBackPressedDispatcher?.onBackPressed()
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
                         }
 
                     }
@@ -229,7 +259,8 @@ class EditStoreFragment : Fragment() {
      */
 
     private fun hideKeyboard() {
-        val imm = mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
