@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
 
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_options_title)
-            .setItems(items) { dialogInterface, i ->
+            .setItems(items) { _, i ->
                 when (i) {
                     0 -> dial(storeEntity.phone)
                     1 -> goToWebSite(storeEntity.website)
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     private fun confirmDelete(storeEntity: StoreEntity) {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
-            .setPositiveButton(R.string.dialog_delete_confirm) { dialogInterface, i ->
+            .setPositiveButton(R.string.dialog_delete_confirm) { _ , _ ->
                 val queue = LinkedBlockingQueue<StoreEntity>()
                 Thread {
                     StoreApplication.database.storeDao().deleteStore(storeEntity)
