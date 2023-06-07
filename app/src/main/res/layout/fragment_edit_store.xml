@@ -94,7 +94,10 @@
                 android:layout_weight="1"
                 android:hint="@string/hint_photo_url"
                 app:endIconMode="clear_text"
-                app:startIconDrawable="@drawable/ic_link">
+                app:startIconDrawable="@drawable/ic_link"
+                app:helperText="@string/helper_required"
+                app:helperTextEnabled="true"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPhotoUrl"

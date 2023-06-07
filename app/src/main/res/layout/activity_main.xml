@@ -10,6 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
+        android:paddingEnd="@dimen/common_padding_min"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +19,7 @@
         tools:listitem="@layout/item_store"
         android:paddingBottom="@dimen/common_padding_min"
         android:clipToPadding="true"
-        />
+        tools:ignore="RtlSymmetry" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
