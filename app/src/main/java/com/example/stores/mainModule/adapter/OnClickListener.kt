@@ -1,4 +1,6 @@
-package com.example.stores
+package com.example.stores.mainModule.adapter
+
+import com.example.stores.common.entities.StoreEntity
 
 interface OnClickListener {
 

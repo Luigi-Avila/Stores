@@ -1,4 +1,4 @@
-package com.example.stores
+package com.example.stores.editModule
 
 import android.content.Context
 import android.os.Bundle
@@ -13,11 +13,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.stores.R
+import com.example.stores.StoreApplication
+import com.example.stores.common.entities.StoreEntity
 import com.example.stores.databinding.FragmentEditStoreBinding
+import com.example.stores.mainModule.MainActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import java.util.concurrent.LinkedBlockingQueue

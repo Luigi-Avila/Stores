@@ -1,4 +1,4 @@
-package com.example.stores
+package com.example.stores.mainModule
 
 import android.content.Intent
 import android.net.Uri
@@ -6,7 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.stores.editModule.EditStoreFragment
+import com.example.stores.common.utils.MainAux
+import com.example.stores.R
+import com.example.stores.StoreApplication
+import com.example.stores.common.entities.StoreEntity
 import com.example.stores.databinding.ActivityMainBinding
+import com.example.stores.mainModule.adapter.OnClickListener
+import com.example.stores.mainModule.adapter.StoreAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.concurrent.LinkedBlockingQueue
 
@@ -113,7 +120,7 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     private fun confirmDelete(storeEntity: StoreEntity) {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
-            .setPositiveButton(R.string.dialog_delete_confirm) { _ , _ ->
+            .setPositiveButton(R.string.dialog_delete_confirm) { _, _ ->
                 val queue = LinkedBlockingQueue<StoreEntity>()
                 Thread {
                     StoreApplication.database.storeDao().deleteStore(storeEntity)
